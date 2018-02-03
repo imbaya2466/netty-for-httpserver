@@ -237,6 +237,10 @@ public class HttpServerHandler extends SimpleChannelInboundHandler<FullHttpReque
 		{
 			response.headers().set(HttpHeaderNames.CONTENT_TYPE,"text/css");
 		}
+		if(file.getPath().endsWith("js"))
+		{
+			response.headers().set(HttpHeaderNames.CONTENT_TYPE,"application/x-javascript");
+		}
 
 
 	}
@@ -342,6 +346,12 @@ public class HttpServerHandler extends SimpleChannelInboundHandler<FullHttpReque
         // Write the content.
         ChannelFuture sendFileFuture;
         ChannelFuture lastContentFuture;
+        
+        
+        
+        
+        
+        
         if (ctx.pipeline().get(SslHandler.class) == null) {
             sendFileFuture =
                     ctx.write(new DefaultFileRegion(randomAccessFile.getChannel(), 0, fileLength), ctx.newProgressivePromise());
@@ -446,7 +456,7 @@ public class HttpServerHandler extends SimpleChannelInboundHandler<FullHttpReque
 		 Map<String, String> parmMap = new RequestParser(request).parse();
 		//parmeMapº¬ÓÐname=value¶Ô
 		 
-		 String fanhuiceshi=request.uri()+parmMap.toString();
+		 String fanhuiceshi=request.uri()+"\n"+parmMap.toString();
 		 System.out.println(fanhuiceshi);
 		 
          FullHttpResponse response = new DefaultFullHttpResponse(HTTP_1_1, OK, Unpooled.wrappedBuffer(fanhuiceshi.getBytes()));
